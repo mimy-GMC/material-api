@@ -5,12 +5,13 @@ import { EmployeeService } from './employee.service';
 import { Employee, EmployeeSchema } from './schemas/employee.schema';
 
 @Module({
+  //Configurer Mongoose pour ce module en enregistrant le schéma Employee
   imports: [
     MongooseModule.forFeature([
       { name: Employee.name, schema: EmployeeSchema },
     ]),
   ],
-  controllers: [EmployeeController],
-  providers: [EmployeeService],
+  controllers: [EmployeeController],//On déclare le controleur qui est instancié dans ce module
+  providers: [EmployeeService],//On déclare le service qui est instancié dans ce module
 })
 export class EmployeeModule {}

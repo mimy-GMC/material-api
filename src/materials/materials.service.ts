@@ -32,15 +32,11 @@ export class MaterialService {
   }
 
   //Mettre à jour un matériel existant
-  async update(
-    id: string,
-    updateMaterialDto: UpdateMaterialDto,
-  ): Promise<Material> {
-    const updatedItem = await this.materialModel
-      .findByIdAndUpdate(id, updateMaterialDto, { new: true })
+  async update(id: string, updateMaterialDto: UpdateMaterialDto): Promise<Material> {
+    const updatedItem = await this.materialModel.findByIdAndUpdate(id, updateMaterialDto, { new: true })
       .exec();
     if (!updatedItem) {
-      throw new NotFoundException(`Inventory item with ID ${id} not found`);
+      throw new NotFoundException(`Material'new item with ID ${id} not found`);
     }
     return updatedItem;
   }

@@ -31,6 +31,7 @@ export class EmployeeService {
     return employee;
   }
 
+  //Mettre à jour les données d'un employé par son ID
   async update(id: string, updateEmployeeDto: UpdateEmployeeDto): Promise<Employee> {
     const updatedItem = await this.employeeModel.findByIdAndUpdate(id, updateEmployeeDto, { new: true }).exec();
     if (!updatedItem) {

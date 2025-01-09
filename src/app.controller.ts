@@ -14,6 +14,6 @@ export class AppController {
   //Route pour vérifier l'état de l'API
   @Get('/ping')
   ping() {
-    return { message: 'pong' }; //Retourne une réponse simple
+    return { message: 'le pong est fonctionnel' }; //Retourne une réponse simple
   }
 }
