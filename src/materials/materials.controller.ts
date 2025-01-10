@@ -11,8 +11,8 @@ import { MaterialService } from './materials.service';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { CreateMaterialDto, UpdateMaterialDto } from './materials.dto';
 
-@ApiTags(('materials')) //Définir le tag pour la documentation Swagger
-@Controller('materials') //Definir le préfixe de la route : /materials
+@ApiTags(('materials')) //le tag pour la documentation Swagger
+@Controller('materials') //le préfixe de la route : /materials
 export class MaterialController {
   constructor(private readonly materialService: MaterialService) {}
 
@@ -29,6 +29,7 @@ export class MaterialController {
   @Get()
   @ApiOperation({ summary: 'Récupérer tous les matériels' })
   @ApiResponse({ status: 200, description: 'Liste de tous les matériels.' })
+  @ApiResponse({ status: 400, description: 'Requête invalide.' })
   findAll() {
     return this.materialService.findAll();
   }
@@ -36,7 +37,7 @@ export class MaterialController {
   //Route GET pour récupérer un matériel par son ID
   @Get(':id')
   @ApiOperation({ summary: 'Récupérer un matériel par son ID' })
-  @ApiResponse({ status: 200, description: 'Détails du matériel. choisi' })
+  @ApiResponse({ status: 200, description: 'Détails du matériel choisi' })
   @ApiResponse({ status: 404, description: 'Matériel non trouvé.' })
   findById(@Param('id') id: string) {
     return this.materialService.findById(id);
@@ -46,7 +47,7 @@ export class MaterialController {
   @Put(':id')
   @ApiOperation({ summary: 'Mettre à jour un matériel' })
   @ApiResponse({ status: 200, description: 'Matériel mis à jour.' })
-  @ApiResponse({ status: 404, description: 'Matériel non trouvé.' })
+  @ApiResponse({ status: 404, description: 'Aucune mis à jour n\'a été trouvé.' })
   update(
     @Param('id') id: string,
     @Body() updateMaterialDto: UpdateMaterialDto,

@@ -12,7 +12,7 @@ export class AppController {
   }
 
   //Route pour vérifier l'état de l'API
-  @Get('/ping')
+  @Get('ping')
   ping() {
     return { message: 'le pong est fonctionnel' }; //Retourne une réponse simple
   }

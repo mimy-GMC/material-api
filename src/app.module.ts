@@ -2,6 +2,8 @@ import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { MaterialModule } from './materials/materials.module';
 import { EmployeeModule } from './employee/employee.module';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
 
 @Module({
   imports: [
@@ -13,6 +15,8 @@ import { EmployeeModule } from './employee/employee.module';
     MaterialModule,
     //Importer le module Employee
     EmployeeModule,
-  ],
+  ],controllers: [AppController], // Ajoutez AppController
+  providers: [AppService], // Ajoutez AppService
 })
+
 export class AppModule {}

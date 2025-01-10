@@ -7,7 +7,7 @@ async function bootstrap() {
 
   // Configure Swagger
   const config = new DocumentBuilder()
-    .setTitle('Material Inventory API')
+    .setTitle('API d\'inventaire de matériel')
     .setDescription('API de gestion des matériels informatiques')
     .setVersion('1.0')
     .addTag('materials')
