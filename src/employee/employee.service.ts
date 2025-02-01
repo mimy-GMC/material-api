@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, ObjectId} from 'mongoose';
 import { Employee } from './schemas/employee.schema';
 import { CreateEmployeeDto, UpdateEmployeeDto } from './employee.dto';
 
@@ -23,7 +23,7 @@ export class EmployeeService {
   }
 
   //Récupérer les données d'un employé par son ID
-  async findById(id: string): Promise<Employee> {
+  async findById(id: ObjectId): Promise<Employee> {
     const employee = await this.employeeModel.findById(id).exec();
     if (!employee) {
       throw new NotFoundException(`Employee with ID "${id}" not found`);
@@ -32,7 +32,7 @@ export class EmployeeService {
   }
 
   //Mettre à jour les données d'un employé par son ID
-  async update(id: string, updateEmployeeDto: UpdateEmployeeDto): Promise<Employee> {
+  async update(id: ObjectId, updateEmployeeDto: UpdateEmployeeDto): Promise<Employee> {
     const updatedItem = await this.employeeModel.findByIdAndUpdate(id, updateEmployeeDto, { new: true }).exec();
     if (!updatedItem) {
       throw new NotFoundException(`Employee with ID "${id}" not found`);
@@ -41,7 +41,7 @@ export class EmployeeService {
   }
 
   //Supprimer les données d'un employé grace à son ID
-  async delete(id: string): Promise<Employee> {
+  async delete(id: ObjectId): Promise<Employee> {
     const employee = await this.employeeModel.findByIdAndDelete(id).exec();
     if (!employee) {
       throw new NotFoundException(`Employee with ID "${id}" not found`);

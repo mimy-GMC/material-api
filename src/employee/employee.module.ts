@@ -13,5 +13,6 @@ import { Employee, EmployeeSchema } from './schemas/employee.schema';
   ],
   controllers: [EmployeeController],//On déclare le controleur qui est instancié dans ce module
   providers: [EmployeeService],//On déclare le service qui est instancié dans ce module
+  exports: [MongooseModule],
 })
 export class EmployeeModule {}

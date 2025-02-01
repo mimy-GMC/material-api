@@ -3,6 +3,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { MaterialController } from './materials.controller';
 import { MaterialService } from './materials.service';
 import { Material, MaterialSchema } from './schemas/materials.schema';
+import { EmployeeModule } from '../employee/employee.module';
 
 @Module({
   imports: [
@@ -10,6 +11,8 @@ import { Material, MaterialSchema } from './schemas/materials.schema';
     MongooseModule.forFeature([
       { name: Material.name, schema: MaterialSchema },
     ]),
+    EmployeeModule,
+
   ],
   //Definir le contrôleur associé à ce module
   controllers: [MaterialController],

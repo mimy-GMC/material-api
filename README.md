@@ -1,26 +1,74 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+## PROJET CREATION D'API REST : GESTION DE STOCKAGE DES MATERIELS INFORMATIQUES -------------------
+Ton projet est une application backend développée avec NestJS et utilise MongoDB via Mongoose pour gérer les données. 
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+📌 Mon application gère plusieurs entités principales :
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+    Employés (employee) : Gestion des employés (ajout, modification, suppression, récupération).
+    Matériaux (materials) : Gestion des matériaux et leur catégorisation.
+    Catégories de matériaux (categories) : Organisation des matériaux en différentes catégories.
+
+L'architecture repose sur NestJS, un framework basé sur TypeScript pour développer des applications Node.js modulaires et maintenables.
+
+## DETAIL BACKEND : 
+Le backend est organisé en modules, chaque entité ayant son propre module pour une meilleure séparation des responsabilités.
+
+1️⃣ Structure du projet
+
+📂 src/
+
+    📌 app.module.ts : Module principal qui importe tous les modules nécessaires.
+    📌 main.ts : Point d'entrée de l'application NestJS.
+    📂 employee/
+        employee.controller.ts : Définit les endpoints de l'API REST pour les employés.
+        employee.service.ts : Contient la logique métier pour manipuler les employés.
+        employee.dto.ts : Définit les structures de données attendues pour la validation.
+        schemas/employee.schema.ts : Modèle de données pour les employés en MongoDB.
+    📂 materials/
+        materials.controller.ts : Définit les endpoints liés aux matériaux.
+        materials.service.ts : Contient la logique métier des matériaux.
+        materials.dto.ts : Définit la validation des matériaux.
+        schemas/materials.schema.ts : Modèle des matériaux en base de données.
+    📂 categories/
+        categories.controller.ts : Définit les endpoints pour les catégories de matériaux.
+        categories.service.ts : Logique métier pour les catégories.
+        categories.dto.ts : Définit les structures de données pour les catégories.
+        schemas/materialCategory.schema.ts : Modèle de la relation materials et catégories en MongoDB.
+        schemas/Category.schema.ts : Modèle des catégories en MongoDB.
+
+2️⃣ Base de données
+
+    MongoDB est utilisé comme base de données.
+    Mongoose est utilisé pour définir les modèles et interagir avec la base.
+    Les schémas sont définis dans chaque module sous schemas/.
+
+3️⃣ API REST
+
+Chaque entité possède son propre contrôleur (controller.ts) pour gérer les requêtes HTTP. Par exemple, pour employee, on retrouve :
+
+    GET /employees : Récupérer la liste des employés.
+    POST /employees : Ajouter un employé.
+    PUT /employees/:id : Modifier un employé.
+    DELETE /employees/:id : Supprimer un employé.
+
+
+## DOCUMENTATION DE MON API : 
+✅ Configuration actuelle de Swagger
+
+    Titre : API d'inventaire de matériel
+    Description : API de gestion des matériels informatiques
+    Version : 1.0
+    Tags : materials, employees, categories
+    Module utilisé : SwaggerModule avec DocumentBuilder
+
+📌 Comment accéder à Swagger UI ? en faisant :
+
+  http://localhost:3000/api
+
+(si ton application tourne sur le port 3000).
+
+
+
+## INFORMATION CONCERNANT NESTJS, VOIR BAS DE LA PAGE ---------------
 
 ## Description
 

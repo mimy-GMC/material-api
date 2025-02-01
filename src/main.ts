@@ -12,9 +12,10 @@ async function bootstrap() {
     .setVersion('1.0')
     .addTag('materials')
     .addTag('employees')
+    .addTag('categories')
     .build();
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document);
+  SwaggerModule.setup('api', app, document) //lien d'accès à la documentation Swagger;
   
   await app.listen(process.env.PORT ?? 3000);
 }
