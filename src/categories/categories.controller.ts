@@ -2,7 +2,6 @@ import { Controller, Get, Post, Put, Delete, Param, Body } from '@nestjs/common'
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { CategoryService } from './categories.service';
 import { CreateCategoryDto, UpdateCategoryDto } from './categories.dto';
-import { Schema } from 'mongoose';
 
 @ApiTags('categories') //le tag pour la documentation Swagger
 @Controller('categories') //le préfixe de la route : /categories
@@ -33,8 +32,7 @@ export class CategoryController {
   @ApiResponse({ status: 404, description: 'Aucun employé à cet id' })
   @Get(':id')
   async findCategoryById(@Param('id') id: string) {
-    const objectId = new Schema.Types.ObjectId(id);
-    return this.categoryService.findCategoryById(objectId);
+    return this.categoryService.findCategoryById(id);
   }
 
   //Route PUT pour mettre à jour une catégorie par son ID
@@ -43,8 +41,7 @@ export class CategoryController {
   @ApiResponse({ status: 404, description: 'Modification non effectuée.' })
   @Put(':id')
   async update(@Param('id') id: string, @Body() updateCategoryDto: UpdateCategoryDto) {
-    const objectId = new Schema.Types.ObjectId(id);
-    return this.categoryService.update(objectId, updateCategoryDto);
+    return this.categoryService.update(id, updateCategoryDto);
   }
 
   //Route DELETE pour supprimer une catégorie par son ID
@@ -53,8 +50,7 @@ export class CategoryController {
   @ApiResponse({ status: 404, description: 'Echec de la suppression.' })
   @Delete(':id')
   async delete(@Param('id') id: string) {
-    const objectId = new Schema.Types.ObjectId(id);
-    return this.categoryService.delete(objectId);
+    return this.categoryService.delete(id);
   }
 
                   /*   RELATIONS (MATERIALS-CATEGORIES)    */
@@ -68,9 +64,7 @@ export class CategoryController {
     @Body('materialId') materialId: string,
     @Body('categoryId') categoryId: string,)
     {
-      const objectIdMaterial = new Schema.Types.ObjectId(materialId);
-      const objectIdCategory = new Schema.Types.ObjectId(categoryId);
-      return this.categoryService.assignMaterialToCategory(objectIdMaterial, objectIdCategory);
+      return this.categoryService.assignMaterialToCategory(materialId, categoryId);
   }
 
   //Route GET pour obtenir toutes les relations matériels-catégories
@@ -88,8 +82,7 @@ export class CategoryController {
   @ApiResponse({ status: 404, description: 'Aucune relation trouvée.' })
   @Get('materials-categories/:idRelation')
   async getMaterialCategory(@Param('idRelation') id: string) {
-    const objectId = new Schema.Types.ObjectId(id);
-    return this.categoryService.getMaterialCategoryById(objectId);
+    return this.categoryService.getMaterialCategoryById(id);
   }
 
   //Route GET pour obtenir tous les matériels grace au nom de la catégorie
@@ -107,7 +100,6 @@ export class CategoryController {
   @ApiResponse({ status: 404, description: 'Echec de la suppression.' })
   @Delete('unassign/:idRelation')
   async removeMaterialFromCategory(@Param('idRelation') id: string) {
-    const objectId = new Schema.Types.ObjectId(id);
-    return this.categoryService.removeMaterialFromCategory(objectId);
+    return this.categoryService.removeMaterialFromCategory(id);
   }
 }

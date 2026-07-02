@@ -10,8 +10,6 @@ import {
 import { MaterialService } from './materials.service';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { CreateMaterialDto, UpdateMaterialDto } from './materials.dto';
-import { Schema } from 'mongoose';
-
 @ApiTags(('materials')) //le tag pour la documentation Swagger
 @Controller('materials') //le préfixe de la route : /materials
 export class MaterialController {
@@ -41,8 +39,7 @@ export class MaterialController {
   @ApiResponse({ status: 200, description: 'Détails du matériel choisi' })
   @ApiResponse({ status: 404, description: 'Matériel non trouvé.' })
   async findById(@Param('id') id: string) {
-    const objectId = new Schema.Types.ObjectId(id);
-    return this.materialService.findById(objectId);
+    return this.materialService.findById(id);
   }
 
   //Route GET pour récupérer tous les matériels grace aun nom de l'employé associé
@@ -63,8 +60,7 @@ export class MaterialController {
     @Param('id') id: string,
     @Body() updateMaterialDto: UpdateMaterialDto,
   ) {
-    const objectId = new Schema.Types.ObjectId(id);
-    return this.materialService.update(objectId, updateMaterialDto);
+    return this.materialService.update(id, updateMaterialDto);
   }
 
   //Route DELETE pour supprimer un matériel
@@ -73,7 +69,6 @@ export class MaterialController {
   @ApiResponse({ status: 200, description: 'Matériel supprimé.' })
   @ApiResponse({ status: 404, description: 'Matériel non trouvé.' })
   async delete(@Param('id') id: string) {
-    const objectId = new Schema.Types.ObjectId(id);
-    return this.materialService.delete(objectId);
+    return this.materialService.delete(id);
   }
 }

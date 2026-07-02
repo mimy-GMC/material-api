@@ -1,6 +1,6 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, ObjectId } from 'mongoose';
+import { Model } from 'mongoose';
 import { Material } from './schemas/materials.schema';
 import { Employee } from '../employee/schemas/employee.schema';
 import { CreateMaterialDto, UpdateMaterialDto } from './materials.dto';
@@ -14,8 +14,21 @@ export class MaterialService {
     @InjectModel(Employee.name) private employeeModel: Model<Employee>
   ) {}
 
+  private async validateEmployeeCategory(employeeName: string, category: string): Promise<void> {
+    const employee = await this.employeeModel.findOne({ name: employeeName }).exec();
+    if (!employee) {
+      throw new NotFoundException(`Employee with name "${employeeName}" not found`);
+    }
+    if (employee.managedCategory !== category) {
+      throw new BadRequestException(
+        `Employee "${employeeName}" manages category "${employee.managedCategory}" and cannot manage material category "${category}"`,
+      );
+    }
+  }
+
   //Créer un nouvel élément de matériel
   async create(createMaterialDto: CreateMaterialDto): Promise<Material> {
+    await this.validateEmployeeCategory(createMaterialDto.employee, createMaterialDto.category);
     const newItem = new this.materialModel(createMaterialDto);
     return newItem.save(); //Sauvegarder le nouvel élément dans la base de données
   }
@@ -26,7 +39,7 @@ export class MaterialService {
   }
 
   //Récupérer un matériel par son ID
-  async findById(id: ObjectId): Promise<Material> {
+  async findById(id: string): Promise<Material> {
     const item = await this.materialModel.findById(id).exec();
     if (!item) {
       throw new NotFoundException(`Material item with ID ${id} not found`);
@@ -51,17 +64,26 @@ export class MaterialService {
   }
 
   //Mettre à jour un matériel existant
-  async update(id: ObjectId, updateMaterialDto: UpdateMaterialDto): Promise<Material> {
+  async update(id: string, updateMaterialDto: UpdateMaterialDto): Promise<Material> {
+    const existingItem = await this.materialModel.findById(id).exec();
+    if (!existingItem) {
+      throw new NotFoundException(`Material item with ID ${id} not found`);
+    }
+
+    const employeeName = updateMaterialDto.employee ?? existingItem.employee;
+    const category = updateMaterialDto.category ?? existingItem.category;
+    await this.validateEmployeeCategory(employeeName, category);
+
     const updatedItem = await this.materialModel.findByIdAndUpdate(id, updateMaterialDto, { new: true })
       .exec();
     if (!updatedItem) {
-      throw new NotFoundException(`Material'new item with ID ${id} not found`);
+      throw new NotFoundException(`Material item with ID ${id} not found`);
     }
     return updatedItem;
   }
 
   //Supprimer un matériel par son ID
-  async delete(id: ObjectId): Promise<Material> {
+  async delete(id: string): Promise<Material> {
     const deletedItem = await this.materialModel.findByIdAndDelete(id).exec();
     if (!deletedItem) {
       throw new NotFoundException(`Material item with ID ${id} not found`);

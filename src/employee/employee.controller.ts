@@ -3,7 +3,6 @@ import { Controller, Get, Post, Put, Delete, Param, Body } from '@nestjs/common'
 import { ApiTags, ApiOperation, ApiResponse} from '@nestjs/swagger';
 import { EmployeeService } from './employee.service';
 import { CreateEmployeeDto, UpdateEmployeeDto } from './employee.dto';
-import { Schema } from 'mongoose';
 
 @ApiTags('employees') //le tag pour la documentation Swagger
 @Controller('employees') //le préfixe de la route : /employees
@@ -34,8 +33,7 @@ export class EmployeeController {
   @ApiResponse({ status: 200, description: 'Informations sur l\'employé choisi.' })
   @ApiResponse({ status: 404, description: 'Aucun employé à cet id' })
   async findById(@Param('id') id: string) {
-    const objectId = new Schema.Types.ObjectId(id);
-    return this.employeeService.findById(objectId);
+    return this.employeeService.findById(id);
   }
 
   //Route PUT pour mettre à jour les données d'un employé par son ID
@@ -48,8 +46,7 @@ export class EmployeeController {
     @Body() updateEmployeeDto: UpdateEmployeeDto
   ) 
     {
-      const objectId = new Schema.Types.ObjectId(id);
-      return this.employeeService.update(objectId, updateEmployeeDto);
+      return this.employeeService.update(id, updateEmployeeDto);
   }
 
   //Route DELETE pour supprimer les données d'un employé par son ID
@@ -58,7 +55,6 @@ export class EmployeeController {
   @ApiResponse({ status: 200, description: 'L\'employé choisi a été supprimé' })
   @ApiResponse({ status: 404, description: 'Echec de la suppression.' })
   async delete(@Param('id') id: string) {
-    const objectId = new Schema.Types.ObjectId(id);
-    return this.employeeService.delete(objectId);
+    return this.employeeService.delete(id);
   }
 }

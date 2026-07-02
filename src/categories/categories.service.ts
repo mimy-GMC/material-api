@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, ObjectId} from 'mongoose';
+import { Model } from 'mongoose';
 import { Category } from './schemas/category.schema';
 import { CreateCategoryDto, UpdateCategoryDto } from './categories.dto';
 import { MaterialCategory } from './schemas/materialCategory.schema';
@@ -30,7 +30,7 @@ export class CategoryService {
   }
 
   //Récupérer les données d'une catégorie par son ID
-  async findCategoryById(id: ObjectId): Promise<Category> {
+  async findCategoryById(id: string): Promise<Category> {
     const category = await this.categoryModel.findById(id).exec();
     if (!category) {
       throw new NotFoundException(`Category with ID ${id} not found`);
@@ -39,7 +39,7 @@ export class CategoryService {
   }
 
   //Mettre à jour les données d'une catégorie par son ID
-  async update(id: ObjectId, updateCategoryDto: UpdateCategoryDto): Promise<Category> {
+  async update(id: string, updateCategoryDto: UpdateCategoryDto): Promise<Category> {
     const category = await this.categoryModel.findByIdAndUpdate(id, updateCategoryDto, { new: true }).exec();
     if (!category) {
       throw new NotFoundException(`Category with ID ${id} not found`);
@@ -48,7 +48,7 @@ export class CategoryService {
   }
 
   //Supprimer une catégorie par son ID
-  async delete(id: ObjectId): Promise<Category> {
+  async delete(id: string): Promise<Category> {
     const category = await this.categoryModel.findByIdAndDelete(id).exec();
     if (!category) {
       throw new NotFoundException(`Category with ID ${id} not found`);
@@ -59,7 +59,7 @@ export class CategoryService {
                   /*   RELATIONS (MATERIALS-CATEGORIES)    */
 
   //Assigner un matériel à une catégorie
-  async assignMaterialToCategory(materialId: ObjectId, categoryId: ObjectId): Promise<MaterialCategory> {
+  async assignMaterialToCategory(materialId: string, categoryId: string): Promise<MaterialCategory> {
     try {
       const association = new this.materialCategoryModel({ materialId, categoryId });
       return await association.save();
@@ -74,7 +74,7 @@ export class CategoryService {
   }
 
   //Récupérer les données d'une relation matériel-catégorie par son ID
-  async getMaterialCategoryById(id: ObjectId): Promise<MaterialCategory> {
+  async getMaterialCategoryById(id: string): Promise<MaterialCategory> {
     const relation = await this.materialCategoryModel.findById(id).exec();
     if (!relation) {
       throw new NotFoundException(`Material-Category relation with ID ${id} not found`);
@@ -92,7 +92,7 @@ export class CategoryService {
   }
 
   //Supprimer l'association d'un matériel à une catégorie
-  async removeMaterialFromCategory(id: ObjectId): Promise<MaterialCategory> {
+  async removeMaterialFromCategory(id: string): Promise<MaterialCategory> {
     const relation = await this.materialCategoryModel.findByIdAndDelete(id).exec();
     if (!relation) {
       throw new NotFoundException(`Material-Category relation with ID ${id} not found`);

@@ -1,147 +1,198 @@
-## PROJET CREATION D'API REST : GESTION DE STOCKAGE DES MATERIELS INFORMATIQUES -------------------
-Ton projet est une application backend développée avec NestJS et utilise MongoDB via Mongoose pour gérer les données. 
+# Material API
 
-📌 Mon application gère plusieurs entités principales :
-
-    Employés (employee) : Gestion des employés (ajout, modification, suppression, récupération).
-    Matériaux (materials) : Gestion des matériaux et leur catégorisation.
-    Catégories de matériaux (categories) : Organisation des matériaux en différentes catégories.
-
-L'architecture repose sur NestJS, un framework basé sur TypeScript pour développer des applications Node.js modulaires et maintenables.
-
-## DETAIL BACKEND : 
-Le backend est organisé en modules, chaque entité ayant son propre module pour une meilleure séparation des responsabilités.
-
-1️⃣ Structure du projet
-
-📂 src/
-
-    📌 app.module.ts : Module principal qui importe tous les modules nécessaires.
-    📌 main.ts : Point d'entrée de l'application NestJS.
-    📂 employee/
-        employee.controller.ts : Définit les endpoints de l'API REST pour les employés.
-        employee.service.ts : Contient la logique métier pour manipuler les employés.
-        employee.dto.ts : Définit les structures de données attendues pour la validation.
-        schemas/employee.schema.ts : Modèle de données pour les employés en MongoDB.
-    📂 materials/
-        materials.controller.ts : Définit les endpoints liés aux matériaux.
-        materials.service.ts : Contient la logique métier des matériaux.
-        materials.dto.ts : Définit la validation des matériaux.
-        schemas/materials.schema.ts : Modèle des matériaux en base de données.
-    📂 categories/
-        categories.controller.ts : Définit les endpoints pour les catégories de matériaux.
-        categories.service.ts : Logique métier pour les catégories.
-        categories.dto.ts : Définit les structures de données pour les catégories.
-        schemas/materialCategory.schema.ts : Modèle de la relation materials et catégories en MongoDB.
-        schemas/Category.schema.ts : Modèle des catégories en MongoDB.
-
-2️⃣ Base de données
-
-    MongoDB est utilisé comme base de données.
-    Mongoose est utilisé pour définir les modèles et interagir avec la base.
-    Les schémas sont définis dans chaque module sous schemas/.
-
-3️⃣ API REST
-
-Chaque entité possède son propre contrôleur (controller.ts) pour gérer les requêtes HTTP. Par exemple, pour employee, on retrouve :
-
-    GET /employees : Récupérer la liste des employés.
-    POST /employees : Ajouter un employé.
-    PUT /employees/:id : Modifier un employé.
-    DELETE /employees/:id : Supprimer un employé.
-
-
-## DOCUMENTATION DE MON API : 
-✅ Configuration actuelle de Swagger
-
-    Titre : API d'inventaire de matériel
-    Description : API de gestion des matériels informatiques
-    Version : 1.0
-    Tags : materials, employees, categories
-    Module utilisé : SwaggerModule avec DocumentBuilder
-
-📌 Comment accéder à Swagger UI ? en faisant :
-
-  http://localhost:3000/api
-
-(si ton application tourne sur le port 3000).
-
-
-
-## INFORMATION CONCERNANT NESTJS, VOIR BAS DE LA PAGE ---------------
+Projet de groupe réalisé avec Anthony NGAKOSSO durant mon année universitaire à YNOV Campus.
+API REST backend pour la gestion des matériels informatiques, développée avec NestJS, TypeScript et MongoDB via Mongoose.
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+Cette application gère les entités suivantes :
 
-## Project setup
+- **Employés** (`employees`) : CRUD des employés.
+- **Matériaux** (`materials`) : CRUD des matériels et validation métier.
+- **Catégories** (`categories`) : CRUD des catégories et gestion des relations matériel-catégorie.
 
-```bash
-$ npm install
+L'application utilise une architecture modulaire NestJS et expose une documentation Swagger.
+
+## Fonctionnalités
+
+- CRUD complet pour les employés, matériels et catégories.
+- Route de santé : `GET /ping`.
+- Validation automatique des requêtes avec `ValidationPipe`.
+- Vérification métier : un employé ne peut gérer qu'une seule catégorie.
+- Documentation interactive via Swagger.
+
+## Architecture
+
+- `src/app.module.ts` : import des modules et configuration MongoDB.
+- `src/main.ts` : configuration de l'application, validation globale et Swagger.
+- `src/app.controller.ts` : route racine et route `/ping`.
+- `src/employee` : module employé.
+- `src/materials` : module matériel.
+- `src/categories` : module catégorie et relations.
+
+## Structure du projet
+
+```
+src/
+  app.module.ts
+  main.ts
+  app.controller.ts
+  app.service.ts
+  employee/
+    employee.controller.ts
+    employee.service.ts
+    employee.dto.ts
+    schemas/employee.schema.ts
+  materials/
+    materials.controller.ts
+    materials.service.ts
+    materials.dto.ts
+    schemas/materials.schema.ts
+  categories/
+    categories.controller.ts
+    categories.service.ts
+    categories.dto.ts
+    schemas/category.schema.ts
+    schemas/materialCategory.schema.ts
 ```
 
-## Compile and run the project
+## Configuration
 
-```bash
-# development
-$ npm run start
+Créer un fichier `.env` à la racine avec :
 
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+```env
+MONGO_URI=mongodb://localhost:27017/material-api
+PORT=3000
 ```
 
-## Run tests
+`MONGO_URI` peut être remplacé par un URI MongoDB Atlas.
+
+## Installation
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+npm install
 ```
 
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+## Lancement
 
 ```bash
-$ npm install -g mau
-$ mau deploy
+npm run start
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+Mode développement :
 
-## Resources
+```bash
+npm run start:dev
+```
 
-Check out a few resources that may come in handy when working with NestJS:
+Mode production :
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+```bash
+npm run start:prod
+```
 
-## Support
+## Endpoints
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+### Global
 
-## Stay in touch
+- `GET /` : message de bienvenue.
+- `GET /ping` : vérifie l'état de l'API.
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+### Employés
 
-## License
+- `POST /employees`
+- `GET /employees`
+- `GET /employees/:id`
+- `PUT /employees/:id`
+- `DELETE /employees/:id`
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+### Matériaux
+
+- `POST /materials`
+- `GET /materials`
+- `GET /materials/:id`
+- `GET /materials/employee/:employeeName`
+- `PUT /materials/:id`
+- `DELETE /materials/:id`
+
+### Catégories
+
+- `POST /categories`
+- `GET /categories`
+- `GET /categories/:id`
+- `PUT /categories/:id`
+- `DELETE /categories/:id`
+
+### Relations matériel-catégorie
+
+- `POST /categories/assign`
+  - Payload : `{ "materialId": "<id>", "categoryId": "<id>" }`
+- `GET /categories/materials-categories`
+- `GET /categories/materials-categories/:idRelation`
+- `GET /categories/:name/materials`
+- `DELETE /categories/unassign/:idRelation`
+
+## Modèles de données
+
+### CreateEmployeeDto
+
+- `name` : string
+- `position` : string
+- `managedCategory` : string
+
+### UpdateEmployeeDto
+
+- `name?` : string
+- `position?` : string
+- `managedCategory?` : string
+
+### CreateMaterialDto
+
+- `name` : string
+- `category` : string
+- `employee` : string
+
+### UpdateMaterialDto
+
+- `name?` : string
+- `category?` : string
+- `employee?` : string
+
+### CreateCategoryDto
+
+- `name` : string
+- `description` : string
+
+### UpdateCategoryDto
+
+- `name?` : string
+- `description?` : string
+
+## Règles métier
+
+- Un employé gère une seule catégorie via `managedCategory`.
+- Lors de la création ou modification d'un matériel, l'employé indiqué doit correspondre à la catégorie du matériel.
+
+## Swagger
+
+Swagger est accessible à :
+
+```text
+http://localhost:3000/api
+```
+
+## Tests
+
+- Tests unitaires : `npm run test`
+- Tests e2e : `npm run test:e2e`
+- Couverture : `npm run test:cov`
+
+## Déploiement
+
+Le dépôt ne contient pas de script de déploiement spécial. Pour déployer, construisez l'application puis exécutez `npm run start:prod`.
+
+## Notes
+
+- Le port par défaut est `3000`.
+- Les routes attendent des IDs MongoDB au format `string`.
+- `MONGO_URI` configure la connexion MongoDB.

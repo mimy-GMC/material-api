@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config'; 
+import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { MaterialModule } from './materials/materials.module';
 import { EmployeeModule } from './employee/employee.module';
@@ -9,18 +9,23 @@ import { AppService } from './app.service';
 
 @Module({
   imports: [
-    //Charge les variables d'environnement
-    ConfigModule.forRoot(),
-    //Configurer la connexion à MongoDB
-    MongooseModule.forRoot(process.env.MONGO_URI || 'mongodb://localhost:27017/default'),
-    //Importer le module Material
+    // Charge les variables d'environnement
+    ConfigModule.forRoot({ isGlobal: true }),
+    // Configurer la connexion à MongoDB de façon dynamique
+    MongooseModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: () => ({
+        uri: process.env.MONGO_URI || 'mongodb://localhost:27017/default',
+      }),
+    }),
+    // Importer le module Material
     MaterialModule,
-    //Importer le module Employee
+    // Importer le module Employee
     EmployeeModule,
-    //Importer le module Category
+    // Importer le module Category
     CategoryModule,
-  ],controllers: [AppController], // Ajoutez AppController
-  providers: [AppService], // Ajoutez AppService
+  ],
+  controllers: [AppController],
+  providers: [AppService],
 })
-
 export class AppModule {}
